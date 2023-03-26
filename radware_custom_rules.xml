@@ -1,0 +1,18 @@
+<rule id="200001" level="3">
+    <decoded_as>radware</decoded_as>
+    <description>radware messages grouped</description>
+  </rule>
+
+  <rule id="200002" level="4">
+   <if_sid>200001</if_sid>
+   <match>AppWallAttackSysLogMessage</match>
+   <description>Radware Cloud WAF Services messages grouped.</description>
+  </rule>
+
+  <rule id="200003" level="4">
+   <if_sid>200002</if_sid>
+   <field name="severity" type="pcre2">^High$</field>
+   <description>Radware WAF High - $(title)</description>
+  </rule>
+
+</group>
