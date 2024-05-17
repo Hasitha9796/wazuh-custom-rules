@@ -1,0 +1,174 @@
+<group name="arista">
+  
+  <rule id="100400" level="0">
+    <decoded_as>arista</decoded_as>
+    <description>Arista messages grouped.</description> 
+  </rule>
+  
+  <rule id="100401" level="0">
+    <if_sid>100400</if_sid>
+    <match>"blocked":false,"clientCategories":0,"serverCategories":0,"ruleId":100022</match>
+    <description>ThreatPreventionEvent.</description>
+  </rule>
+  
+  <rule id="100402" level="0">
+    <if_sid>100400</if_sid>
+    <field name="reason">PASS_CLIENT</field>
+     <match>"localAddr":"10.10.15</match>
+    <description>Pass Client</description>
+  </rule>
+  
+   <rule id="100404" level="0">
+    <if_sid>100400</if_sid>
+    <field name="reason">PASS_SITE</field>
+    <description>Pass Site</description>
+  </rule>
+  
+  
+   <rule id="100403" level="12" frequency="6" timeframe="3600">
+    <if_matched_sid>100400</if_matched_sid>
+    <field name="reason">BLOCK_CATEGORY</field>
+     <same_field>ClientAddr</same_field>
+    <description>Multiple block category alerts from same clientip.</description>
+  </rule>
+  
+  <rule id="100405" level="0">
+    <if_sid>100400</if_sid>
+     <field name="ruleId">0</field>
+    <field name="flagged">false</field>
+    <field name="blocked">false</field>
+    <field name="class">class com.untangle.app.firewall.FirewallEvent</field>
+    <description>Firewall default Event.</description>
+  </rule>
+  
+  <rule id="100424" level="3">
+    <if_sid>100400</if_sid>
+     <field name="flagged">true</field>
+    <field name="blocked">true</field>
+    <field name="class">class com.untangle.app.firewall.FirewallEvent</field>
+    <description>Firewall blocked and flagged Event.</description>
+  </rule>
+  
+   <rule id="100406" level="3">
+    <if_sid>100400</if_sid>
+     <field name="ruleId">100004</field>
+    <field name="blocked">true</field>
+    <field name="class">class com.untangle.app.threat_prevention.ThreatPreventionHttpEvent</field>
+    <description>Http Threat Prevention Blocked Events.</description>
+    </rule>
+    
+   <rule id="100407" level="0">
+    <if_sid>100400</if_sid>
+    <field name="ruleId">0</field>
+    <match>"localAddr":"192.168.101</match>
+    <field name="class">class com.untangle.app.web_filter.WebFilterEvent</field>
+    <description>Internal Web Event</description>
+    </rule>
+
+ <rule id="100408" level="3">
+    <if_sid>100400</if_sid>
+    <field name="ruleId">0</field>
+    <field name="blocked">true</field>
+    <field name="class">class com.untangle.app.threat_prevention.ThreatPreventionEvent</field>
+    <description>Threat Prevention Blocked Events.</description>
+    </rule>
+
+<rule id="100409" level="0">
+    <if_sid>100400</if_sid>
+    <field name="blocked">false</field>
+    <field name="class">class com.untangle.app.application_control.ApplicationControlLogEvent</field>
+    <match>"localAddr":"192.168.101|"localAddr":"10.10.15|"localAddr":"10.10.20|"localAddr":"10.200.201</match>
+    <description>Application Control Unblocked Event</description>
+    </rule>
+
+<rule id="100410" level="3">
+    <if_sid>100400</if_sid>
+    <field name="blocked">true</field>
+    <field name="class">class com.untangle.app.application_control.ApplicationControlLogEvent</field>
+    <description>Application Control Blocked Event</description>
+    </rule>
+
+<rule id="100411" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.uvm.app.SessionMinuteEvent</field>
+    <description>Session Minute Events.</description>
+    </rule>
+    
+    <rule id="100412" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.uvm.app.SessionEvent</field>
+    <description>Session Events</description>
+    </rule>
+    
+    <rule id="100413" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.uvm.app.SessionStatsEvent</field>
+    <description>Session Stats Events</description>
+    </rule>
+    
+    <rule id="100414" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.uvm.app.SessionNatEvent</field>
+    <description>Session Nat Events</description>
+    </rule>
+    
+     <rule id="100415" level="3">
+    <if_sid>100400</if_sid>
+    <field name="blocked">true</field>
+    <field name="class">class com.untangle.app.intrusion_prevention.IntrusionPreventionLogEvent</field>
+    <description>Intrusion Prevention Log Events.</description>
+    </rule>
+    
+     <rule id="100416" level="0">
+    <if_sid>100400</if_sid>
+    <match>GPL ICMP_INFO PING</match>
+    <description>GPL ICMP INFO</description>
+    </rule>
+    
+    <rule id="100417" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.app.openvpn.OpenVpnStatusEvent</field>
+    <match>"poolAddress":"192.168.101</match>
+    <description>Open VPN Status Event.</description>
+    </rule>
+    
+    <rule id="100418" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.app.http.HttpRequestEvent</field>
+    <description>Http Request Event.</description>
+    </rule>
+    
+    <rule id="100419" level="0">
+    <if_sid>100400</if_sid>
+    <field name="class">class com.untangle.app.wireguard_vpn.WireGuardVpnStats</field>
+    <description>WireGuard VPN Event.</description>
+    </rule>
+    
+   <rule id="100420" level="0">
+    <if_sid>100400</if_sid>
+    <field name="blocked">false</field>
+    <description>Success Event.</description>
+    <group>falsetruegroup</group>
+    </rule>
+    
+    <rule id="100421" level="3">
+    <if_sid>100400</if_sid>
+    <field name="blocked">true</field>
+    <description>Failure Event.</description>
+    <group>falsetruegroup</group>
+    </rule>
+    
+    <rule id="100422" level="12" frequency="2" timeframe="86400">
+    <if_matched_sid>100421, 100420</if_matched_sid>
+    <same_field>ipSource</same_field>
+    <description>Success after failure.</description>
+    </rule>
+    
+    <rule id="100423" level="0">
+    <if_sid>100400</if_sid>
+     <field name="ruleId">100004</field>
+    <field name="blocked">false</field>
+    <field name="class">class com.untangle.app.threat_prevention.ThreatPreventionHttpEvent</field>
+    <description>Http Threat Prevention Unblocked Events.</description>
+    </rule>
+</group>
