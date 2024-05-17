@@ -1,0 +1,122 @@
+<group name="custom-windows">
+
+<rule id="100101" level="12">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^629$|^4725$</field>
+    <options>no_full_log</options>
+    <description>User account disabled.</description>
+    <mitre>
+      <id>T1098</id>
+      <id>T1531</id>
+    </mitre>
+    <group>account_changed,adduser,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.10,hipaa_164.312.a.2.I,hipaa_164.312.a.2.II,hipaa_164.312.b,nist_800_53_AC.2,nist_800_53_AC.7</group>
+  </rule>
+
+<rule id="100102" level="12">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^626$|^4722$</field>
+    <options>no_full_log</options>
+    <description>User account enabled</description>
+    <mitre>
+      <id>T1098</id>
+    </mitre>
+    <group>account_changed,adduser,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.10,hipaa_164.312.a.2.I,hipaa_164.312.a.2.II,hipaa_164.312.b,nist_800_53_AC.2,nist_800_53_AC.7,nist_800_53_AU.14</group>
+</rule>
+
+<rule id="100103" level="12">
+    <if_sid>60122</if_sid>
+    <list field="win.eventdata.targetUserName" lookup="match_key" check_value="admin">etc/lists/adminusers</list>
+    <options>no_full_log</options>
+    <description>Admin user login failure detected.</description>
+    <mitre>
+      <id>T1078</id>
+      <id>T1531</id>
+    </mitre>
+    <group>authentication_failed,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.1,hipaa_164.312.b,nist_800_53_AC.7,nist_800_53_AU.14,pci_dss_10.2.4,pci_dss_10.2.5,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+
+<rule id="100104" level="12" frequency="5" timeframe="240">
+     <if_matched_sid>100103</if_matched_sid>
+    <list field="win.eventdata.targetUserName" lookup="match_key" check_value="admin">etc/lists/adminusers</list>
+    <options>no_full_log</options>
+    <description>Multiple admin user login failure detected.</description>
+    <mitre>
+      <id>T1078</id>
+      <id>T1531</id>
+    </mitre>
+    <group>authentication_failed,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.1,hipaa_164.312.b,nist_800_53_AC.7,nist_800_53_AU.14,pci_dss_10.2.4,pci_dss_10.2.5,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_</group>
+  </rule>
+
+
+<rule id="100105" level="12">
+ <if_group>authentication_success</if_group>
+<list field="win.eventdata.targetUserName" lookup="match_key" check_value="admin">etc/lists/adminusers</list>
+<time>6 pm - 8:30 am</time>
+<options>no_full_log</options>
+<description>Admin user successful login during non-business hours.</description>
+<group>login_time,pci_dss_10.2.5,pci_dss_10.6.1,gpg13_7.1,gpg13_7.2,gdpr_IV_35.7.d,gdpr_IV_32.2,hipaa_164.312.b,nist_800_53_AU.14,nist_800_53_AC.7,nist_800_53_AU.6,</group>
+</rule>
+
+<rule id="100106" level="12">
+    <if_sid>100103</if_sid>
+    <list field="win.eventdata.targetUserName" lookup="match_key" check_value="admin">etc/lists/adminusers</list>
+    <options>no_full_log</options>
+    <time>6 pm - 8:30 am</time>
+    <description>Admin user login failure during non-business hours</description>
+    <group>authentication_failed,</group>
+ </rule>
+
+<rule id="100107" level="12" frequency="4" timeframe="600">
+    <if_matched_sid>60115</if_matched_sid>
+    <different_field>win.eventdata.targetUserName</different_field>
+    <options>no_full_log</options>
+    <description>Multiple user account locked out within a short period of time.</description>
+    <group>authentication_failures,gdpr_IV_35.7.d,gpg13_7.5,hipaa_164.312.a.1,nist_800_53_AC.7,nist_800_53_SI.4,pci_dss_11.4,pci_dss_8.1.6,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+
+  <rule id="100108" level="12">
+    <if_sid>60122</if_sid>
+    <list field="win.eventdata.targetUserName" lookup="match_key" check_value="exemployee">etc/lists/exemployee</list> 
+    <options>no_full_log</options>
+    <description>Ex-employee Logon failure</description>
+    <group>authentication_failed,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.1,hipaa_164.312.b,nist_800_53_AC.7,nist_800_53_AU.14,pci_dss_10.2.4,pci_dss_10.2.5,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_</group>
+  </rule>
+
+ <rule id="100109" level="12" frequency="5" timeframe="1800">
+    <if_matched_sid>60109</if_matched_sid>
+    <options>no_full_log</options>
+    <description>High number of users created within a short period of time.</description>
+    <group>account_changed,adduser,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.10,hipaa_164.312.a.2.I,hipaa_164.312.a.2.II,hipaa_164.312.b,nist_800_53_AC.2,nist_800_53_AC.7,nist_800_53_AU.14,nis</group>
+  </rule>
+
+ <rule id="100110" level="12" frequency="5" timeframe="1800">
+   <if_matched_sid>60111</if_matched_sid>
+    <options>no_full_log</options>
+    <description>High number of users deleted within a short period of time.</description>
+    <group>account_changed,adduser,gdpr_IV_32.2,gdpr_IV_35.7.d,gpg13_7.10,hipaa_164.312.a.2.I,hipaa_164.312.a.2.II,hipaa_164.312.b,nist_800_53_AC.2,nist_800_53_AC.7,nist_800_53_AU.14,nis</group>
+  </rule>
+
+<rule id="100111" level="12" frequency="2" timeframe="1800">
+    <if_matched_group>authentication_success</if_matched_group>
+     <same_field>win.eventdata.targetUserName</same_field>
+    <description>Multiple Windows Logins by Same User</description>
+    <group>authentication_success,</group>
+</rule>
+
+<rule id="100112" level="12">
+   <if_matched_sid>100111</if_matched_sid>
+    <different_field>win.system.computer</different_field>
+    <description>Multiple Windows Logins by Same User for different host.</description>
+    <group>authentication_success,</group>
+</rule>
+
+<rule id="100113" level="12" frequency="2" timeframe="1800">
+   <if_matched_group>authentication_success</if_matched_group>
+     <different_field>win.eventdata.targetUserName</different_field>
+     <same_field>win.system.computer</same_field>
+    <description>Multiple Windows Logins by different User for same host.</description>
+    <group>authentication_success,</group>
+</rule>
+
+
+</group>
