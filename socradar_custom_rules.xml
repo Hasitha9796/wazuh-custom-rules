@@ -1,0 +1,15 @@
+<group name="socradar">
+
+  <rule id="100400" level="12">
+    <decoded_as>socradar</decoded_as>
+    <description>$(alert)</description>
+  </rule>
+
+
+  <rule id="100401" level="0">
+  <if_sid>100400</if_sid>
+  <match>error</match>
+    <description>SOCRadar Error messages grouped.</description>
+  </rule>
+
+</group>
