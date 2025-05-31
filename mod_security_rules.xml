@@ -1,0 +1,33 @@
+<group name="modsecurity">
+  
+  <rule id="350210" level="3">
+    <decoded_as>modsecurity-custom</decoded_as>
+    <description>Modsecurity messages grouped.</description> 
+  </rule>
+
+  <rule id="350211" level="5">
+    <if_sid>350210</if_sid>
+    <field name="modsec.severity">1</field>
+    <description>Detected and blocked attacks</description>
+  </rule>
+
+ <rule id="350212" level="5">
+    <if_sid>350210</if_sid>
+    <field name="modsec.severity">2</field>
+    <description>Suspicious behavior or partial rule match, not blocked.</description>
+  </rule>
+
+<rule id="350213" level="5">
+    <if_sid>350210</if_sid>
+    <field name="modsec.severity">3</field>
+    <description>Non-fatal errors or unusual input</description>
+  </rule>
+
+<rule id="350214" level="2">
+    <if_sid>350210</if_sid>
+    <field name="modsec.severity">4</field>
+    <description>Informative logs for visibility, no action needed.</description>
+  </rule>
+
+
+</group>
